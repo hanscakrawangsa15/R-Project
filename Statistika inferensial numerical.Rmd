@@ -1,0 +1,149 @@
+---
+ title: "Pertemuan 8"
+author: "Hans Cakrawangsa"
+date: "2024-06-05"
+output: html_document
+---
+
+## Call library
+```{r}
+library(statsr)
+library(ggplot2)
+library(dplyr)
+```
+Call open intro nc
+```{r}
+download.file("http://www.openintro.org/stat/data/nc.RData",
+              destfile = "nc.RData")
+load("nc.RData")
+```
+## view
+```{r}
+View(nc)
+```
+Exercise 1 
+## What are the cases in this data set? How many cases are there in our sample?
+## Ringkasan data 
+```{r}
+summary(nc)
+```
+Answer Exercise 1 : this is a newborn babies data sample in north carolina in 2004 and there are 1000 cases
+
+Exercise 2 : Make a side-by-side boxplot of habit and weight. What does the plot highlight about
+the relationship between these two variables?
+```{r}
+boxplot(nc$weight ~ nc$habit, main = "Berat dari bayi dengan ibu yang kecanduan rokok", xlab = "Berat bayi", ylab = "Ibu dengan kebiasaan rokok", horizontal = TRUE)
+```
+Answer : The relationship is between the weight of a baby whose mother had a smoking habit and a non-smoking habit, which has the same weight of babies. We can see from the boxplot shows that the medians and interquartile range of the two distributions are very close.
+```{r}
+by(nc$weight, nc$habit, mean)
+```
+Exercise 3 
+Check if the conditions necessary for inference are satisfied. Note that you will need to
+obtain sample sizes to check the conditions. You can compute the group size using the same by command above but replacing mean with length.
+## Answer 
+```{r}
+by(nc$weight, nc$habit, length)
+```
+Exercise 4 
+Write the hypotheses for testing if the average weights of babies born to smoking and
+non-smoking mothers are different.
+Answer : 
+```{r}
+inference(y=nc$weight, x=nc$habit, est = "mean", type = "ht", null = 0, alternative = "twoside", method = "theoretical")
+```
+We can see from the graph and data above, we can take hypothesis 
+H0: mu_nonsmoker - mu_smoker = 0 (that means non smoker - smoker is 0)
+HA: mu_nonsmoker - mu_smoker != 0 (that means non smoker - smoker is not 0)
+Standard error = 0.134 
+Test statistic: Z =  2.359 
+p-value =  0.0184 
+
+
+## 
+```{r}
+by(nc$weight, nc$habit, mean)
+```
+## Inference
+```{r}
+by(nc$weight, nc$habit, length)
+```
+#Boxplot between habit and weight
+```{r}
+ggplot(nc, aes(x = habit, y = weight)) + geom_boxplot() + ggtitle("The relation between habit and weight")
+
+```
+
+```{r}
+inference (y = nc$weight, x= nc$habit, est = "mean", type = "ht", null = 0, alternative = "twoside", method = "theoretical")
+```
+##type ci 
+```{r}
+inference (y = nc$weight, x= nc$habit, est = "mean", type = "ci", null = 0, alternative = "twoside", method = "theoretical", order = c("smoker", "nonsmoker")) 
+```
+
+## Rumus 
+Margin Error = Z Score * Standard Error = 1.96 (95% Confidence) *SE
+CI Batas bawah = Observed Difference - Margin Error = - 0.5777
+CI Batas Atas = Observer Difference + Margin Error =  - 0.0534
+
+## On my own
+1. Calculate a 95% confidence interval for the average length of pregnancies (weeks) and interpret it in
+context. Note that since you’re doing inference on a single population parameter, there is no grouping
+variable, so you can omit the group variable from the function.
+Answer  :
+```{r}
+inference (y = nc$weeks, est = "mean", type = "ci", null = 0, alternative = "twoside", method = "theoretical")
+```
+2. Calculate a new confidence interval for the same parameter at the 90% confidence level. You can change
+the confidence level by adding a new argument to the function: conflevel = 0.90.
+Answer : 
+```{r}
+inference (y = nc$weeks, est = "mean", type = "ci", null = 0, alternative = "twoside", method = "theoretical", conflevel = 0.90)
+```
+
+3. Conduct a hypothesis test evaluating whether the average weight gained by younger mothers is different
+than the average weight gained by mature mothers.
+
+Answer : 
+```{r}
+inference(y= nc$gained, x = nc$mature, est = "mean", type = "ht", null = 0, alternative = "twoside", method = "theoretical")
+```
+## with the p-value is 0.1686, there is a strong evidence to reject the H0. I can conclude that there is a difference in means of the avarage weight gained between younger and mature mothers. 
+
+4. Now, a non-inference task: Determine the age cutoff for younger and mature mothers. Use a method of
+your choice, and explain how your method works
+Answer : 
+```{r}
+by(nc$mage, nc$mature, range)
+```
+We can see from the method above the minimum age for younger mom is 13 and maximum younger mom is 34 and the minimum age for mature mom is 35 and maximum mature mom is 50
+
+5. Pick a pair of numerical and categorical variables and come up with a research question evaluating the
+relationship between these variables. Formulate the question in a way that it can be answered using a
+hypothesis test and/or a confidence interval. Answer your question using the inference function, report the
+statistical results, and also provide an explanation in plain language.
+Answer : 
+```{r}
+inference(nc$visits, nc$mature, est = "mean", type = "ht", null = 0, alternative = "twosided", method = "theoretical")
+```
+Numerical = nc$visits
+Categorical = nc$mature
+
+Question = Does the maturity status of mother have an impact to the number of visits during pregnancy? 
+H0 = There is no impact on maturity status with the number of visits during pregnancy
+H1 = There is an impact on maturity status with the number of visits during pregnancy
+Margin Error= 1.96*0.405 = 0.7938
+from the method above we can conclude that the p-value is 0.15 and Margin Error is 0.7938 which is larger than 0.05, so we can conclude that H0 can be accepted. 
+
+6. What concepts from the textbook are covered in this lab? What concepts, if any, are not covered in the
+textbook? Have you seen these concepts elsewhere, e.g. lecture, discussion section, previous labs, or
+homework problems? Be specific in your answer.
+## The concept that I learn from MyOpenMath OpenIntro is :  
+1. Numerical Inferential data statistics
+2. Foundations for inference
+3. Constructing Confidence intervals
+4. Hypothesis Testing 
+5. Why do we use 0.05?
+6. Inference for estimator
+

@@ -1,0 +1,296 @@
+---
+title: "Asistensi 2"
+author: "Hans Cakrawangsa"
+date: "2024-04-17"
+output: html_document
+---
+```{r}
+source("http://www.openintro.org/stat/data/cdc.R")
+##Panggil data
+cdc
+```
+```{r}
+## nama
+names(cdc)
+```
+## Exercise 1 
+1. genhlth = categorical 
+2. exerany = categorical
+3. hlthplan = categorical
+4. smoke100 = categorical
+5. height = numerical 
+6. weight = numerical
+7. wtdesire = numerical
+8. age = numerical
+9. gender = numerical
+## melihat data diambil dari barus awal
+```{r}
+head(cdc)
+```
+
+```{r}
+head(cdc, n=100)
+```
+```{r}
+tail(cdc)
+```
+## Summaries and table 
+```{r}
+summary(cdc)
+```
+```{r}
+summary(cdc$weight)
+```
+## melihat statistik descriptive data 
+```{r}
+mean(cdc$weight)
+var(cdc$weight)
+## variance adalah distribusi angkanya misalnya dibandingkan dengan 1 3 5 6 7 dengan 10 20 50 60 70 maka variance yang besar adalah 10 20 50 60 70
+median(cdc$weight)
+```
+## frekuensi pada kolom tertentu 
+```{r}
+table(cdc$smoke100)/20000
+```
+##memanggil dan memberi variable baru untuk menyimpan nilai
+```{r}
+smoke <- table(cdc$smoke100)/20000
+```
+##distribusi frekuensi relatif 
+```{r}
+smoke/20000
+```
+## Exercise 2 
+1. Numerical Summary for Height 
+```{r}
+summary(cdc$height)
+70-64
+```
+## 1st Quartile = 64.00
+## 2nd Quartile = 67.00
+## 3rd Quartile = 70.00 
+IQR = 70-64 = 6
+
+2. Numerical Summary for Age 
+```{r}
+summary(cdc$age)
+57-31
+```
+
+## 1st Quartile = 31.00
+## 2nd Quartile = 43.00
+## 3rd Quartile = 57.00 
+IQR = 57-31 = 26
+3. Interquartile for gender
+```{r}
+summary(cdc$gender)
+```
+## Male Value = 9569
+## Female value = 10431
+4. Interquartile for exerany 
+```{r}
+summary(cdc$exerany)
+```
+```{r}
+table(cdc$gender)/20000
+```
+```{r}
+table(cdc$exerany)/20000
+```
+```{r}
+table(cdc$gender)
+```
+```{r}
+table(cdc$genhlth)/20000
+```
+
+##buat plot
+```{r}
+barplot(smoke)
+```
+## frekuensi sample yang merokok dan ga merokok berdasarkan gender
+```{r}
+table(cdc$gender,cdc$smoke100)
+```
+## buat plot
+```{r}
+mosaicplot(table(cdc$gender,cdc$smoke100), main = "Data Gender")
+```
+## Exercise 3 
+1. Mosaic Plot reveal smoking habits and gender 
+#rectangle mosaic plot who is smoke and isn't smoke between male and female
+
+1. melihat nilai kolom ke-6 (weight) dari responden ke 567
+```{r}
+cdc[567,"weight"]
+```
+alternative
+```{r}
+cdc$weight[567]
+```
+##(2)melihat nilai kolom ke 6 (weight dengan n responden)
+#contoh : data dari 10-20
+```{r}
+cdc[10:20,6]
+```
+## (3)melihat nilai data dari n responden
+```{r}
+cdc[10:20, ]
+```
+4) melihat nilai dari koloom ke 6 dari seluruh responden 
+```{r}
+cdc[,6]
+```
+## Alternatif lain 
+```{r}
+cdc$weight
+```
+# a little more on subsetting
+## conditional commands
+1. melihat kolom gender yang memiliki nilai "m"
+```{r}
+cdc$gender=="m"
+```
+2. melihat kolom age yang memiliki nilai lebih dari 30 
+```{r}
+cdc$age > 30
+```
+## subset data 
+Subset (irisan)
+```{r}
+subset(cdc, cdc$gender == "m")
+```
+## several condition 
+& dibaca "and" | dibaca " or"
+##contoh subset 1
+```{r}
+m_and_over30 <- subset(cdc,cdc$gender=="m"& cdc$age>30)
+m_and_over30
+```
+## contoh subset 2
+```{r}
+m_or_over30 <- subset(cdc,cdc$gender=="m"| cdc$age>30)
+m_or_over30
+```
+##Exercise 4 
+1. new object under 23 and smoke 
+```{r}
+under23_and_smoke <- subset(cdc,cdc$smoke100 & cdc$age<23)
+summary(under23_and_smoke)
+```
+
+## box plot 
+## quantitative data 
+1. membuat plot untuk kolom height 
+```{r}
+boxplot(cdc$height)
+```
+## garis hitam = median
+## box abu-abu = inter quartil (Q3-Q1)
+## lingkaran kecil = sebacaran data yang terlalu ekstrem
+
+2. membuat box plot berdasarkan gender 
+```{r}
+boxplot(cdc$height ~ cdc$gender)
+```
+
+3. membuat plot untuk bmi berdasarkan kolom genhlth
+```{r}
+bmi <- (cdc$weight/cdc$height^2) * 703
+bmi
+```
+```{r}
+boxplot(bmi ~ cdc$genhlth)
+```
+## Exercise 5 
+1. What does the boxplot show? 
+boxplot shown that the relational between body mass index and general health. 
+2. relationship between categorical variable to bmi. 
+- genhlth
+```{r}
+boxplot(bmi~cdc$genhlth)
+```
+
+- exenary
+```{r}
+boxplot(bmi~cdc$exerany)
+```
+
+- hlthplan
+```{r}
+boxplot(bmi~cdc$hlthplan)
+```
+
+-smoke100
+```{r}
+boxplot(bmi~cdc$smoke100)
+```
+
+
+4. membuat histogram dari kolom age 
+```{r}
+hist(cdc$age)
+```
+5. membuat histogram dari data bmi, dengan data dibagi menjadi 50 bin atau kelas
+```{r}
+hist(bmi,breaks = 50)
+```
+## On my Own
+1. Make a scatterplot of weight versus desired weight. Describe the relationship between these two variables
+```{r}
+plot(cdc$weight~cdc$wtdesire)
+```
+2. Create this new variable by subtracting the two columns in the data frame and assigning them to a
+new object called wdiff
+```{r}
+wdiff <- cdc$wtdesire - cdc$weight
+wdiff
+```
+```{r}
+str(wdiff)
+```
+3. What type of data is wdiff? If an observation wdiff is 0, what does this mean about the person’s weight and
+desired weight. What if wdiff is positive or negative?
+//wdiff is a numerical continous variable, if an observation wdiff is 0, it means the person's weight is exactly their desired weight (same weight)
+// if the wdiff is positive : the person's desired weight is higher than the current weight (need gain weight)
+// if the wdiff is negative : the person's desired weight is lower than the current weight (need lose weight)
+
+4. Describe the distribution of wdiff in terms of its center, shape, and spread, including any plots you use.
+What does this tell us about how people feel about their current weight?
+//
+```{r}
+summary(wdiff)
+```
+boxplot below is not a normal distribution and has a few potential outliers. median is closer to the top of the box and the whisker is shorter on the upper end of the box the center below 0 and range is spread from -300 to 500     
+```{r}
+boxplot(wdiff)
+```
+```{r}
+hist(wdiff, breaks = 30)
+```
+//this plot doesn't represent normal distribution. long tail of histogram plot is on negative direction on a number line. the mean lies toward left of median. from the summary of the data and hence it is negatively skewed distribution also known as left skewed distribution.
+```{r}
+plot(wdiff)
+```
+
+5. Using numerical summaries and a side-by-side box plot, determine if men tend to view their weight
+differently than women.
+```{r}
+menweight <- subset(cdc,cdc$gender == "m")
+menweight <- subset(cdc$wtdesire - cdc$weight, cdc$gender == "m")
+womanweight <- subset(cdc$wtdesire - cdc$weight, cdc$gender == "f")
+summary(menweight)
+summary(womanweight)
+```
+```{r}
+boxplot(menweight,womanweight)
+```
+//We can conclude that woman weight slightly bigger difference between their weight and desired weight than males by looking the summary (median & mean)  
+6. Now it’s time to get creative. Find the mean and standard deviation of weight and determine what
+proportion of the weights are within one standard deviation of the mean.
+// 
+```{r}
+defsd <- subset(cdc$weight,cdc$weight > (mean(cdc$weight)- sd(cdc$weight)) & cdc$weight < (mean(cdc$weight)+ sd(cdc$weight)))
+length(defsd)/nrow(cdc)
+```
+70.76% of the weight are within one standard deviation of the mean
