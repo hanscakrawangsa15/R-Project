@@ -1,0 +1,74 @@
+---
+title: "Baptism Girl and Boys"
+author: "Hans Cakrawangsa"
+date: "2024-03-27"
+output: html_document
+---
+
+## Source
+```{r}
+source("more/arbuthnot.R")
+arbuthnot
+```
+## Import data
+```{r}
+arbuthnot
+```
+## Mengubah nama data 
+```{r}
+data <- arbuthnot
+data
+```
+
+## dimensi data 
+```{r}
+dim(data)
+```
+## Melihat kolom
+```{r}
+names(data)
+```
+## akses data kolom cowo
+```{r}
+data$boys
+```
+## akses data kolom cewe 
+```{r}
+data$girls
+```
+## Scatterplot cewe
+```{r}
+plot(x = data$year, y = data$girls)
+```
+## line chart 
+```{r}
+plot(x = data$year, y = data$girls, type = "l")
+```
+## total number baptism
+```{r}
+data$boys+data$girls
+```
+
+## line chart year and total 
+```{r}
+plot(data$year, data$boys + data$girls, type = "l")
+```
+##proporsi cowo dan cewe
+```{r}
+data$boys/data$girls
+```
+## proporsi cowo dan cewe per tahun
+```{r}
+data$boys / (data$boys + data$girls)
+```
+
+## proporsi cowo total
+```{r}
+plot(data$year, data$boys / (data$boys + data$girls), type = "l")
+```
+## perbandingan 
+```{r}
+arbuthnot$boys > arbuthnot$girls
+```
+
+

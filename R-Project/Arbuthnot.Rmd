@@ -1,0 +1,93 @@
+---
+title: "Praktikum1"
+author: "Hans Cakrawangsa"
+date: "2024-03-27"
+output: html_document
+---
+
+#Load the Data
+## Menggunakan Source
+```{r}
+source("http://www.openintro.org/stat/data/arbuthnot.R")
+#Panggil data source
+arbuthnot
+```
+## Menggunakan Import Data
+```{r}
+#Panggil data sesuai nama file yang diimport
+arbuthnot
+```
+
+## Mengubah Nama Objek
+```{r}
+data <- arbuthnot
+data 
+```
+
+## Melihat dimensi data 
+```{r}
+dim(data)
+```
+
+## Melihat nama Kolom
+
+```{r}
+names(data)
+```
+
+# Some Exploration
+## akses data didalam kolom tertentu
+```{r}
+data$boys
+```
+## Membuat tabel baru 
+```{r}
+boys <- cbind(data$year, data$boys)
+colnames(boys) <- c("Year", "Boys")
+print(boys)
+```
+
+## Membuat Grafik
+### Scatter Plot
+```{r}
+plot(x = data$year, y=data$boys)
+```
+### Line Chart
+```{r}
+plot(x = data$year, y = data$boys, type = "l", main = "Data Cowo", col)
+```
+## Perhitungan R
+### Kalkulator Sederhana
+```{r}
+1234*2345
+1234+2345
+```
+## Cara Cepat
+```{r}
+#Melihat Keseluruhan data laki-laki dan perempuan setiap tahun
+
+data$boys+data$girls
+```
+## Melihat proporsi lakilaki dengan perempuan setiap tahun 
+```{r}
+data$boys/data$girls
+```
+
+## Melihat proporsi lakilaki dengan perempuan setiap tahun
+```{r}
+data$boys/(data$girls-data$boys)
+```
+
+## Perhitungan Perbandingan 
+```{r}
+data$boys == data$girls
+```
+## Membuat line chart tahun dengan total lakilaki dan perempuan setiap tahun
+```{r}
+plot(data$year, data$boys+data$girls, type = "l")
+```
+
+
+
+
+
